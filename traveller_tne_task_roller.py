@@ -219,11 +219,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         asset_multipliers = [4.00, 2.00, 1.00, 0.50, 0.25]
         self.asset_multiplier = asset_multipliers[self.taskDifficulty.currentIndex()]
         log.info('Task Difficulty: ' + self.taskDifficulty.currentText())
-        #self.attribute.setValue(1)
-        #self.attribute_only.setChecked(False)
-        #self.skill.setValue(0)
-        #self.untrained_skill.setChecked(False)
-        #self.modifier.setValue(0)
         self.diceRoll.setText('')
         self.taskResult.setText('')
         self.rollInput.clear()
