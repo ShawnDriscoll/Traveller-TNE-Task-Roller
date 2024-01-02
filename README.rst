@@ -41,8 +41,8 @@ Some Things Required
 What's in v0.1.0?
 -----------------
 
-.. image:: images/video2.png
-    :target: https://www.youtube.com/watch?v=argU12wFpEc
+.. image:: images/video1.png
+    :target: https://www.youtube.com/watch?v=5qmwAt5ZcPI
 
 
 Don't Have Python?

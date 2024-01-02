@@ -319,11 +319,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif self.roll_result <= self.value_to_beat:
             temp = 'Succeeded'
             self.bar_color = 'g'
-            log.info('Task succeeded!')
+            log.info('Task succeeded')
         else:
             temp = 'Failed'
             self.bar_color = 'r'
-            log.info('Task failed!')
+            log.info('Task failed')
+        if self.roll_result == 20:
+            temp = 'Automatic Failure'
+            self.bar_color = 'r'
+            log.info('Automatic Failure')
+        if self.roll_result == 1:
+            temp = 'Automatic Success'
+            self.bar_color = 'g'
+            log.info('Automatic Success')
         self.taskResult.setText(temp)
         self.rollBrowser.append(self.dice_type + ' = ' + self.diceRoll.text())
         sample = '[ '
