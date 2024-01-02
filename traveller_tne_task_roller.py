@@ -239,49 +239,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
     def attribute_changed(self):
         '''
-        Clear last roll result if attribute is changed
+        Update controlling attribute value
         '''
-
-        self.clear_graph = True
-        self.draw_graph()
-
-        self.diceRoll.setText('')
-        self.taskResult.setText('')
-        self.rollInput.clear()
-        
-        # disable roll button if target number <= 0
-        if self.attribute.value() + self.skill.value() + self.modifier.value() <= 0:
-            self.rollButton.setDisabled(True)
-            self.actionRoll_Dice.setDisabled(True)
-        else:
-            self.rollButton.setDisabled(False)
-            self.actionRoll_Dice.setDisabled(False)
+        self.clear_roll_result()
     
     def skill_changed(self):
         '''
-        Clear last roll result if skill is changed
+        Update skill level value
         '''
-
-        self.clear_graph = True
-        self.draw_graph()
-
-        self.diceRoll.setText('')
-        self.taskResult.setText('')
-        self.rollInput.clear()
-    
-        # disable roll button if target number <= 0
-        if self.attribute.value() + self.skill.value() + self.modifier.value() <= 0:
-            self.rollButton.setDisabled(True)
-            self.actionRoll_Dice.setDisabled(True)
-        else:
-            self.rollButton.setDisabled(False)
-            self.actionRoll_Dice.setDisabled(False)
+        self.clear_roll_result()
     
     def modifier_changed(self):
         '''
-        Clear last roll result if modifier is changed
+        Update modifier value
         '''
+        self.clear_roll_result()
 
+    def clear_roll_result(self):
+        '''
+        Clear last roll result
+        '''
         self.clear_graph = True
         self.draw_graph()
 
@@ -321,6 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bar_color = 'g'
             log.info('Task succeeded')
         else:
+            # rolled high
             temp = 'Failed'
             self.bar_color = 'r'
             log.info('Task failed')
@@ -333,20 +311,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bar_color = 'g'
             log.info('Automatic Success')
         self.taskResult.setText(temp)
+        # Display the roll result inside the text browser
         self.rollBrowser.append(self.dice_type + ' = ' + self.diceRoll.text())
+        # generate sample roll data
         sample = '[ '
         for x in range(10):
             sample += str(roll(self.dice_type)) + ' '
         sample += ']'
+        # display sample roll data
         self.sampleBrowser.clear()
         self.sampleBrowser.append(sample)
         log.info('Sample for die type: ' + sample)
         self.rollInput.clear()
         if not self.ms_voice_muted:
+            # say what die type is rolled
             engine.say('Rolling ' + self.dice_type)
             engine.runAndWait()
         self.draw_graph()
         if not self.ms_voice_muted:
+            # say rolled result
             engine.say(temp)
             engine.runAndWait()
     
@@ -372,12 +355,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Display the roll result inside the text browser
             self.rollBrowser.append(returned_line)
             if roll_returned != -9999:
+                # generate sample roll data
                 sample = '[ '
                 for x in range(10):
                     sample += str(roll(dice_entered)) + ' '
                 sample += ']'
             else:
                 sample = ''
+            # display sample roll data
             self.sampleBrowser.clear()
             self.sampleBrowser.append(sample)
             log.info('Sample for die type: ' + sample)
@@ -387,11 +372,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.rolled_manually = True
             if self.roll_result != -9999:
                 if not self.ms_voice_muted:
+                    # say what die type is rolled
                     engine.say('Calculating ' + dice_entered)
                     engine.runAndWait()
                 self.bar_color = 'black'
                 self.draw_graph()
                 if not self.ms_voice_muted:
+                    # say rolled result
                     engine.say(str(self.roll_result))
                     engine.runAndWait()
             else:
